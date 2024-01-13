@@ -8,15 +8,17 @@ const workingHoursMiddleware = (req, res, next) => {
   const now = new Date();
   const dayOfWeek = now.getDay();
   const hourOfDay = now.getHours();
-  next();
+  //   next();
 
-  /* if (dayOfWeek >= 1 && dayOfWeek <= 5 && hourOfDay >= 9 && hourOfDay < 17) {
+  if (dayOfWeek >= 1 && dayOfWeek <= 5 && hourOfDay >= 9 && hourOfDay < 17) {
     next(); // Continue to the next middleware or route handler
   } else {
-    res.send(
-      "Sorry, the website is only available during working hours (Monday to Friday, 9 to 17)."
-    );
-  } */
+    // Render the error view with a specific status code (e.g., 403 Forbidden)
+    res.render("error", {
+      message:
+        "Sorry, the web application is only available during working hours. (Monday to Friday, from 9 to 17).",
+    });
+  }
 };
 
 // Set up middleware
@@ -40,6 +42,14 @@ app.get("/services", (req, res) => {
 
 app.get("/contact", (req, res) => {
   res.render("contact");
+});
+
+// Error route
+app.get("/error", (req, res) => {
+  res.render("error", {
+    message:
+      "Sorry, the web application is only available during working hours. (Monday to Friday, from 9 to 17).",
+  });
 });
 
 // Start the server
